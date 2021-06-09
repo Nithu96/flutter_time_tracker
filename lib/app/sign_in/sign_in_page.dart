@@ -9,33 +9,42 @@ class SignInPage extends StatelessWidget {
         elevation: 2.0,
       ),
       body: _buildContent(),
+      backgroundColor: Colors.grey[200],
     );
   }
 
   Container _buildContent() {
     return Container(
       padding: EdgeInsets.all(16.0),
-      color: Colors.amberAccent,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center ,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Container(
-            color: Colors.orange,
-            child: SizedBox(
-              height: 100.0,
+          Text(
+            'Sign In',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 32.0,
+              fontWeight: FontWeight.w600,
             ),
           ),
-          Container(
-            color: Colors.red,
-            child: SizedBox(
-              height: 100.0,
+          SizedBox(height:8.0),
+          // ignore: deprecated_member_use
+          RaisedButton(
+            child: Text(
+              'Sign in with Google',
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 15.0,
+              ),
             ),
-          ),
-          Container(
-            color: Colors.purple,
-            child: SizedBox(
-              height: 100.0,
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(6.0),
+              ),
             ),
+            onPressed: () {},
           )
         ],
       ),
