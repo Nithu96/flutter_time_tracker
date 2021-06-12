@@ -17,6 +17,9 @@ class _LandingPageState extends State<LandingPage> {
   void initState(){
     super.initState();
     _checkCurrentUser();
+    widget.auth.onAuthStateChanged.listen((user) {
+      print('user: ${user?.uid}');
+    });
   }
   Future<void> _checkCurrentUser() async {
     User1 user = await widget.auth.currentUser();
@@ -30,15 +33,29 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    if(_user == null) {
-      return SignInPage(
-        auth:widget.auth,
-       onSignIn: _updateUser,
-      );
-    }
-    return HomePage(
-        auth:widget.auth,
-        onSignOut: () => _updateUser(null),
-    ); // temporary placeholder for HomePage
+    return StreamBuilder<User1>(
+        stream: widget.auth.onAuthStateChanged,
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            User1 user = snapshot.data;
+            if(_user == null) {
+              return SignInPage(
+                auth:widget.auth,
+                onSignIn: _updateUser,
+              );
+            }
+            return HomePage(
+              auth:widget.auth,
+              onSignOut: () => _updateUser(null),
+            ); // temporary placeholder for HomePage
+          } else {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        }
+        );
   }
 }

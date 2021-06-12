@@ -8,6 +8,7 @@ class User1 {
 }
 
 abstract class AuthBase{
+  Stream<User1> get onAuthStateChanged;
   Future<User1> currentUser();
   Future<User1> signInAnonymously();
   Future<void> signOut();
@@ -23,8 +24,14 @@ class Auth implements AuthBase {
     return User1(uid: user.uid);
   }
 
+  @override
+  Stream<User1> get onAuthStateChanged{
+    // ignore: deprecated_member_use
+    return _firebaseAuth.onAuthStateChanged.map(_userFromFirebase);
+  }
+
   Future<User1> currentUser() async {
-   final user = await _firebaseAuth.currentUser;
+   final user = _firebaseAuth.currentUser;
    return _userFromFirebase(user);
 
   }
