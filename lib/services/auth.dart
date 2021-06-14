@@ -40,7 +40,6 @@ class Auth implements AuthBase {
 
   }
 
-  @override
   Future<User1> signInAnonymously() async {
     final authResult = await _firebaseAuth.signInAnonymously();
     return _userFromFirebase(authResult.user);
@@ -54,6 +53,7 @@ class Auth implements AuthBase {
       final googleAuth = await googleAccount.authentication;
       if(googleAuth.accessToken != null && googleAuth.idToken != null){
         final authResult = await _firebaseAuth.signInWithCredential(
+          // ignore: deprecated_member_use
           GoogleAuthProvider.getCredential(
             idToken: googleAuth.idToken,
             accessToken: googleAuth.accessToken,
@@ -76,6 +76,8 @@ class Auth implements AuthBase {
 
   @override
   Future<void> signOut() async {
+    final googleSignIn = GoogleSignIn();
+    await googleSignIn.signOut();
     await _firebaseAuth.signOut();
   }
 }
